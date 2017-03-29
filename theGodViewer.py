@@ -16,7 +16,7 @@ class TheGodViewerCommand(sublime_plugin.EventListener):
 			code = view.substr(sublime.Region(line.a, line.b))
 
 			# img path
-			path = search('src="([^"]*)"', code)
+			path = search('<img[^>]*src="([^"]*)"', code)
 
 			# if the mouse is on an image src
 			if path:
