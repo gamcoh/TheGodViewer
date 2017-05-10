@@ -16,11 +16,11 @@ class TheGodViewerCommand(sublime_plugin.EventListener):
 			code = view.substr(sublime.Region(line.a, line.b))
 
 			# img path
-			path = search('<img[^>]*src="([^"]*)"', code)
+			path = search("""<img[^>]*src=("|')([^"|']*)("|')""", code)
 
 			# if the mouse is on an image src
 			if path:
-				img = path.group(1)
+				img = path.group(2)
 
 				# if the img is hosted
 				isHosted = search('(http|ftp)s?://', img)
@@ -43,6 +43,7 @@ class TheGodViewerCommand(sublime_plugin.EventListener):
 				if not isImg:
 					return
 
+				# open the image file in binary
 				f = open(cwd[0] + '/' + imgPath, 'rb')
 				if f:
 					imgContent = str(b64encode(f.read()), 'utf-8')
